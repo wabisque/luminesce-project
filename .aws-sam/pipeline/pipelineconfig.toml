@@ -1,18 +1,23 @@
 version = 0.1
 [default.pipeline_bootstrap.parameters]
-pipeline_user = "arn:aws:iam::152350391057:user/aws-sam-cli-managed-staging-pipeline-r-PipelineUser-oU2yQitXp2jz"
-permissions_provider = "AWS IAM"
+oidc_provider_url = "https://token.actions.githubusercontent.com"
+oidc_client_id = "sts.amazonaws.com"
+github_org = "dreamitdev-appkeep"
+github_repo = "api-v1"
+deployment_branch = "main"
+oidc_provider = "github-actions"
+permissions_provider = "OpenID Connect (OIDC)"
 
-[staging.pipeline_bootstrap.parameters]
-pipeline_execution_role = "arn:aws:iam::152350391057:role/aws-sam-cli-managed-staging-p-PipelineExecutionRole-Pw7EDidaF0DE"
-cloudformation_execution_role = "arn:aws:iam::152350391057:role/aws-sam-cli-managed-stagi-CloudFormationExecutionRo-jhZlaXTXHUHR"
-artifacts_bucket = "aws-sam-cli-managed-staging-pipeli-artifactsbucket-zrihtzrkpct8"
+[test.pipeline_bootstrap.parameters]
+pipeline_execution_role = "arn:aws:iam::152350391057:role/aws-sam-cli-managed-test-pipe-PipelineExecutionRole-8I22HWJpJe1T"
+cloudformation_execution_role = "arn:aws:iam::152350391057:role/aws-sam-cli-managed-test--CloudFormationExecutionRo-vV43uRAZVntU"
+artifacts_bucket = "aws-sam-cli-managed-test-pipeline--artifactsbucket-3njnfvgk11s9"
 image_repository = ""
 region = "us-east-1"
 
-[production.pipeline_bootstrap.parameters]
-pipeline_execution_role = "arn:aws:iam::152350391057:role/aws-sam-cli-managed-productio-PipelineExecutionRole-NIuejHpq4NZ5"
-cloudformation_execution_role = "arn:aws:iam::152350391057:role/aws-sam-cli-managed-produ-CloudFormationExecutionRo-SCKF4nO3xoXZ"
-artifacts_bucket = "aws-sam-cli-managed-production-pip-artifactsbucket-guwtkfx2pffc"
+[prod.pipeline_bootstrap.parameters]
+pipeline_execution_role = "arn:aws:iam::152350391057:role/aws-sam-cli-managed-prod-pipe-PipelineExecutionRole-LXFv9GQUaXcQ"
+cloudformation_execution_role = "arn:aws:iam::152350391057:role/aws-sam-cli-managed-prod--CloudFormationExecutionRo-cc18ZI1QVFf3"
+artifacts_bucket = "aws-sam-cli-managed-prod-pipeline--artifactsbucket-zdrpttcgcznf"
 image_repository = ""
 region = "us-east-1"

@@ -4,7 +4,7 @@ version = 0.1
 
 [default]
 [default.global.parameters]
-stack_name = "appkeep-api-v1"
+stack_name = "appkeep-api"
 
 [default.build.parameters]
 cached = true
