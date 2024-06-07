@@ -1,0 +1,16 @@
+-- Up
+
+CREATE TABLE IF NOT EXISTS `{{table_name}}`
+  (
+    `id` INT UNSIGNED AUTO_INCREMENT NOT NULL,
+    `created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    `updated_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+
+    CONSTRAINT `{{table_name}}_id_primary_key` PRIMARY KEY (`id`)
+  ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+
+--- // ---
+
+-- Down
+
+DROP TABLE IF EXISTS `{{table_name}}`;

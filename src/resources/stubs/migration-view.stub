@@ -1,0 +1,12 @@
+-- Up
+
+CREATE OR REPLACE VIEW `{{table_name}}_view`
+AS
+  SELECT `{{table_name}}`*
+  FROM `{{table_name}}`;
+
+--- // ---
+
+-- Down
+
+DROP VIEW IF EXISTS `{{table_name}}_view`;

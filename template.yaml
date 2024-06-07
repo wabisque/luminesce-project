@@ -9,7 +9,39 @@ Description: >
 
 Globals:
   Function:
+    Architectures:
+      - x86_64
+    Environment:
+      Variables:
+        DB_DATABASE: !Ref AWS::StackName
+        DB_HOST: appkeep-premium.cxuht2ovzfwa.us-east-1.rds.amazonaws.com
+        DB_PORT: 3306
+        DB_SECRET: rds!db-b112712b-fb25-4020-9778-8bd45a597910
+    MemorySize: 512
+    Runtime: nodejs20.x
+    Timeout: 180
 
 Resources:
+  ApplicationFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: index.app
+      Events:
+        Base:
+          Type: Api
+          Properties:
+            Path: /
+            Method: any
+        Proxy:
+          Type: Api
+          Properties:
+            Path: /{proxy+}
+            Method: any
+      Policies:
+        - AWSSecretsManagerGetSecretValuePolicy:
+            SecretArn: !Sub "arn:aws:secretsmanager:${AWS::Region}:${AWS::AccountId}:secret:rds!db-b112712b-fb25-4020-9778-8bd45a597910-1Mty3q"
       
 Outputs:
+  Api:
+    Description: "API Gateway endpoint URL for Prod stage"
+    Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/"

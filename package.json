@@ -1,0 +1,28 @@
+{
+  "name": "appkeep-api-v1",
+  "version": "1.0.0",
+  "description": "Version 1 for the appkeep api",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "aws-sdk": "^2.1636.0",
+    "moment": "^2.30.1",
+    "mysql2": "^3.10.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dreamitdev-appkeep/api-v1.git"
+  },
+  "keywords": [
+    "api"
+  ],
+  "author": "Dreamit Dev",
+  "license": "UNLICENSED",
+  "bugs": {
+    "url": "https://github.com/dreamitdev-appkeep/api-v1/issues"
+  },
+  "homepage": "https://github.com/dreamitdev-appkeep/api-v1#readme"
+}
