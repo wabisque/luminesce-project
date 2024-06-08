@@ -1,55 +1,15 @@
 #! /usr/bin/env node
 
-import { existsSync } from 'node:fs';
-import { mkdir, readFile, writeFile } from 'node:fs/promises';
-import { resolve } from 'node:path';
+import terminal from './src/bootstrap/terminal.js';
 
-import moment from 'moment';
+console.log();
 
-async function execute() {
-  console.log();
+const [ ,, tag, ...args ] = process.argv;
 
-  const command = process.argv[2];
-
-  if(command == 'make:migration:table') {
-    const tableName = process.argv[3]?.trim() ?? '';
-
-    // validate the table name
-    if(!/^[a-z]+(_[a-z]+)*$/g.test(tableName)) {
-      console.log('\x1b[37m\x1b[41m ERROR \x1b[0m Invalid table name provided.');
-      process.exit(1);
-    }
-
-    const migrationsPath = './src/database/migrations';
-
-    // create migrations folder if not exists
-    if(!existsSync(migrationsPath)) {
-      await mkdir(
-        migrationsPath,
-        {
-          recursive: true,
-        }
-      );
-    }
-
-    const filename = `${moment().format('YYYY-MM-DD-HHmmssSSS')}-create-${tableName}-table-migration`;
-    const filePath = `${migrationsPath}/${filename}`;
-    const stub = await readFile(
-      './src/resources/stubs/migration-table.stub',
-      {
-        encoding: 'utf8',
-      }
-    );
-
-    await writeFile(
-      filePath,
-      stub.replaceAll('{{table_name}}', tableName)
-    );
-
-    console.log(`\x1b[37m\x1b[44m INFO \x1b[0m Migration \x1b[1m[${resolve(filePath)}]\x1b[0m created successfully.`);
-  }
+try {
+  await terminal.command(tag, args);
+} catch(error) {
+  process.exit(1);
 }
-
-await execute();
 
 process.exit(0);
