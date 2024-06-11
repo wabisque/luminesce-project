@@ -9,6 +9,7 @@ const [ ,, tag, ...args ] = process.argv;
 try {
   await terminal.command(tag, args);
 } catch(error) {
+  console.log(error);
   process.exit(1);
 }
 
