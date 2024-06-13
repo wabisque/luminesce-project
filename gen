@@ -1,16 +1,49 @@
 #! /usr/bin/env node
 
-import terminal from './src/bootstrap/terminal.js';
+import './env.local.js';
+
+function parse(args, scope = {}) {
+  if(args.length == 0) return scope;
+
+  const [ key, ...other ] = args;
+
+  if(/^--[$_A-Za-z][$_A-Za-z\d]*$/g.test(key)) {
+    const values = [];
+    let index = 0;
+
+    for(index = 0; index < other.length; index++) {
+      const arg = other[index];
+
+      if(/^--[$_A-Za-z][$_A-Za-z\d]*$/g.test(arg)) {
+        break;
+      }
+
+      values.push(arg);
+    }
+
+    scope[key.slice(2)] = values.length == 0 ? null : (values.length == 1 ? values[0] : values);
+
+    return parse(other.slice(index), scope);
+  }
+
+  return parse(other, scope);
+}
+
+const { default: app } = await import('./src/bootstrap/app.js');
+
+await import('./src/routes/console.js');
 
 console.log();
 
-const [ ,, tag, ...args ] = process.argv;
+const [ command, ...args ] = process.argv.slice(2);
 
 try {
-  await terminal.command(tag, args);
-} catch(error) {
-  console.log(error);
-  process.exit(1);
+  await app.console.execute(
+    command,
+    parse(args)
+  );
+} catch (error) {
+  console.error(error);
 }
 
 process.exit(0);

@@ -1,12 +1,12 @@
 -- Up
 
-CREATE OR REPLACE VIEW `{{table_name}}_view`
+CREATE OR REPLACE VIEW `{{table}}_view`
 AS
-  SELECT `{{table_name}}`*
-  FROM `{{table_name}}`;
+  SELECT `{{table}}`*
+  FROM `{{table}}`;
 
 --- // ---
 
 -- Down
 
-DROP VIEW IF EXISTS `{{table_name}}_view`;
+DROP VIEW IF EXISTS `{{table}}_view`;

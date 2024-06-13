@@ -17,6 +17,11 @@ Globals:
         DB_HOST: appkeep-premium.cxuht2ovzfwa.us-east-1.rds.amazonaws.com
         DB_PORT: 3306
         DB_SECRET: rds!db-b112712b-fb25-4020-9778-8bd45a597910
+        DB_LOCAL_DATABASE: appkeep_v1
+        DB_LOCAL_HOST: 127.0.0.1
+        DB_LOCAL_PORT: 3306
+        DB_LOCAL_USERNAME: root
+        DB_LOCAL_PASSWORD: ""
     MemorySize: 512
     Runtime: nodejs20.x
     Timeout: 180

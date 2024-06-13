@@ -8,6 +8,7 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
+    "@aws-sdk/client-secrets-manager": "^3.596.0",
     "aws-sdk": "^2.1636.0",
     "moment": "^2.30.1",
     "mysql2": "^3.10.0"
