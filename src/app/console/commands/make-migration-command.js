@@ -17,12 +17,12 @@ export default class MakeMigrationCommand extends Command {
    */
   async execute() {
     const table = this._args.table?.replaceAll('-', '_') ?? '';
-    const raw = 'raw' in this._args;
-    const view = 'view' in this._args;
+    const raw = Boolean(this._args.raw);
+    const view = Boolean(this._args.view);
 
     // ensure that the table provided is valid
-    if(!/^[a-z]+(_[a-z]+)*$/g.test(table)) {
-      throw new Error('Invalid table name.');
+    if(typeof table != 'string' || !/^[a-z]+(_[a-z]+)*$/g.test(table)) {
+      throw new Error('Invalid table.');
     }
 
     // fetch the migrations directory path
@@ -38,28 +38,19 @@ export default class MakeMigrationCommand extends Command {
       );
     }
 
+    const type = view ? '-view' : (raw ? '' : '-table');
+
     // fetch migration stub
     const stub = await readFile(
-      join(
-        this._app.basePath,
-        `./resources/stubs/migration${
-          view ? '-view' : (raw ? '' : '-table')
-        }`
-      ),
+      join(this._app.basePath, `./resources/stubs/migration${type}`),
       {
         encoding: 'utf8',
       }
     );
 
     const filePath = join(
-      this._app.basePath,
-      `./database/migrations/${
-        moment().format('YYYY-MM-DD-HHmmssSSS')
-      }-${
-        view || !raw ? 'create-' : ''}${table.replaceAll('_', '-')
-      }${
-        view ? '-view' : (raw ? '' : '-table')
-      }`
+      targetPath,
+      `./${moment().format('YYYY-MM-DD-HHmmssSSS')}-${view || !raw ? 'create-' : ''}${table.replaceAll('_', '-')}${type}`
     );
 
     // create migration file

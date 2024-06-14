@@ -1,0 +1,15 @@
+import Command from '../../../../vendors/luminesce/console/command.js';
+
+export default class {{name}} extends Command {
+  /** @type {string} */
+  static get tag() {
+    return '{{tag}}';
+  }
+
+  /**
+   * @returns {Promise<string?>}
+   */
+  async execute() {
+    return '{{tag}} command executed successfully.'
+  }
+}

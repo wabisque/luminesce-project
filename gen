@@ -21,7 +21,7 @@ function parse(args, scope = {}) {
       values.push(arg);
     }
 
-    scope[key.slice(2)] = values.length == 0 ? null : (values.length == 1 ? values[0] : values);
+    scope[key.slice(2)] = values.length == 0 ? true : (values.length == 1 ? values[0] : values);
 
     return parse(other.slice(index), scope);
   }
