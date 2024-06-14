@@ -1,0 +1,22 @@
+-- Up
+
+CREATE TABLE IF NOT EXISTS `roles`
+  (
+    `id` INT UNSIGNED AUTO_INCREMENT NOT NULL,
+    `uuid` VARCHAR(64) NOT NULL,
+    `name` VARCHAR(255) NOT NULL,
+    `account_id` INT UNSIGNED DEFAULT NULL,
+    `created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    `updated_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    `admin` INT(1) GENERATED ALWAYS AS (IF(`account_id` IS NULL, 1, NULL)) VIRTUAL,
+    CONSTRAINT `roles_id_primary_key` PRIMARY KEY (`id`),
+    CONSTRAINT `roles_uuid_unique_key` UNIQUE (`uuid`),
+    CONSTRAINT `roles_name_account_id_is_admin_unique_key` UNIQUE (`name`, `account_id`, `admin`),
+    CONSTRAINT `roles_account_id_foreign_key` FOREIGN KEY (`account_id`) REFERENCES `accounts` (`id`) ON DELETE SET NULL ON UPDATE CASCADE
+  ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+
+--- // ---
+
+-- Down
+
+DROP TABLE IF EXISTS `roles`;

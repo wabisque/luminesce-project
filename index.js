@@ -1,5 +1,13 @@
 export async function app(event, context) {
-  const { default: handler } = await import('./app.js');
-
-  return await handler(event, context);
+  return {
+    statusCode: 200,
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      env: process.env,
+      event,
+      context,
+    }),
+  };
 }

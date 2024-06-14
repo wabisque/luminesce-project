@@ -32,7 +32,8 @@ export default class MigrateCommand extends Command {
 
     const records = await this._app.db.execute(`
       SELECT * 
-      FROM \`migrations\`;
+      FROM \`migrations\`
+      ORDER BY \`id\` DESC;
     `);
 
     if(fresh) {

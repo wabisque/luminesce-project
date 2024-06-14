@@ -1,0 +1,23 @@
+-- Up
+
+CREATE TABLE IF NOT EXISTS `countries`
+  (
+    `id` INT UNSIGNED AUTO_INCREMENT NOT NULL,
+    `uuid` VARCHAR(64) NOT NULL,
+    `name` VARCHAR(255) NOT NULL,
+    `code2` CHAR(2) NOT NULL,
+    `code3` CHAR(3) NOT NULL,
+    `created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    `updated_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    CONSTRAINT `countries_id_primary_key` PRIMARY KEY (`id`),
+    CONSTRAINT `countries_uuid_unique_key` UNIQUE (`uuid`),
+    CONSTRAINT `countries_name_unique_key` UNIQUE (`name`),
+    CONSTRAINT `countries_code2_unqiue_key` UNIQUE (`code2`),
+    CONSTRAINT `countries_code3_unqiue_key` UNIQUE (`code3`)
+  ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+
+--- // ---
+
+-- Down
+
+DROP TABLE IF EXISTS `countries`;
