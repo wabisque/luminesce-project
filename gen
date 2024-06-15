@@ -1,6 +1,6 @@
 #! /usr/bin/env node
 
-import './env.local.js';
+console.log();
 
 function parse(args, scope = {}) {
   if(args.length == 0) return scope;
@@ -30,10 +30,6 @@ function parse(args, scope = {}) {
 }
 
 const { default: app } = await import('./src/bootstrap/app.js');
-
-await import('./src/routes/console.js');
-
-console.log();
 
 const [ command, ...args ] = process.argv.slice(2);
 

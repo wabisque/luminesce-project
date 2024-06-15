@@ -1,15 +1,28 @@
+import { join } from 'node:path';
+
 import { GetSecretValueCommand, SecretsManagerClient } from '@aws-sdk/client-secrets-manager';
 
-import Connection from '../../admiral/database/connection.js';
 import Console from '../console/console.js';
+import Connection from '../database/connection.js';
+import Router from '../http/routing/router.js';
+import Configuration from '../configuration/configuration.js';
 
 export default class Application {
+  /** @type {bool} */
+  static get initialized() {
+    return Application.#instance != null;
+  }
+
   /** @type {Application?} */
   static #instance = null;
 
   /** @type {string} */
   get basePath() {
     return this.#basePath;
+  }
+  /** @type {Configuration} */
+  get config() {
+    return this.#config;
   }
   /** @type {Console} */
   get console() {
@@ -19,13 +32,24 @@ export default class Application {
   get db() {
     return this.#db;
   }
-
+  /** @type {bool} */
+  get initialized() {
+    return Application.initialized;
+  }
+  /** @type {Router} */
+  get router() {
+    return this.#router;
+  }
   /** @type {string} */
   #basePath;
+  /** @type {Configuration} */
+  #config;
   /** @type {Console} */
   #console;
   /** @type {Connection} */
   #db;
+  /** @type {Router} */
+  #router;
 
   /**
    * @param {string} basePath
@@ -41,45 +65,48 @@ export default class Application {
   }
 
   /**
-   * @returns {Promise<void>}
+   * @param {import('../http/request/request.js').default} request
+   * @returns {Promise<import('../http/response/response.js').default>}
    */
-  async execute() {
-    throw new Error('Not implemented');
+  async execute(request) {
+    const match = await this.#router
+      .match(request);
+
+    return await match.execute(request);
   }
 
   /**
    * @returns {Promise<void>}
    */
   async setup() {
-    
-    const database = process.env.AWS_SAM_LOCAL == 'true' ? process.env.DB_LOCAL_DATABASE : process.env.DB_DATABASE;
-    const host = process.env.AWS_SAM_LOCAL == 'true' ? process.env.DB_LOCAL_HOST : process.env.DB_HOST;
-    const port = process.env.AWS_SAM_LOCAL == 'true' ? process.env.DB_LOCAL_PORT : process.env.DB_PORT;
-    let username = process.env.DB_LOCAL_USERNAME;
-    let password = process.env.DB_LOCAL_PASSWORD;
+    this.#config = new Configuration();
 
-    if(process.env.AWS_SAM_LOCAL != 'true') {
-      const secretsManager = new SecretsManagerClient();
-      const secretResponse = await secretsManager.send(
-        new GetSecretValueCommand({
-          SecretId: process.env.DB_SECRET,
-        })
-      );1
-      const secrets = JSON.parse(secretResponse.SecretString);
-
-      username = secrets.username;
-      password = secrets.password;
-    }
+    await this.#config.load(join(this.#basePath, './config'));
 
     this.#console = new Console(this);
+
+    const database = this.#config.get('db.database');
+    const host = this.#config.get('db.host');
+    const port = this.#config.get('db.port');
+    
+    const secretsManager = new SecretsManagerClient();
+    const secretResponse = await secretsManager.send(
+      new GetSecretValueCommand({
+        SecretId: this.#config.get('db.secret'),
+      })
+    );
+    const secrets = JSON.parse(secretResponse.SecretString);
+
     this.#db = new Connection(
       database,
       host,
       port,
-      username,
-      password
+      secrets.username,
+      secrets.password
     );
 
     await this.#db.connect();
+    
+    this.#router = new Router();
   }
 }

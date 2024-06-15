@@ -5,16 +5,21 @@ export default class Command {
   }
 
   /** @type {import('../application/application.js').default} */
-  _app;
+  get _app() {
+    return this.#app;
+  }
+
   /** @type {Record<string, (string|string[])?>} */
   _args;
+  /** @type {import('../application/application.js').default} */
+  #app;
 
   /**
    * @param {import('../application/application.js').default} app
    * @param {Record<string, (string|string[])?>} args
    */
   constructor(app, args) {
-    this._app = app;
+    this.#app = app;
     this._args = args;
   }
 

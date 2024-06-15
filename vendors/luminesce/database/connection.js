@@ -16,11 +16,11 @@ export default class Connection {
 
   /**
    * 
+   * @param {string} database
    * @param {string} host
    * @param {number} port
    * @param {string} username
    * @param {string?} password
-   * @param {string?} database
    */
   constructor(database, host, port, username, password = null) {
     this.#database = database;
