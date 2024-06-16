@@ -3,7 +3,7 @@
 CREATE TABLE IF NOT EXISTS `accounts`
   (
     `id` INT UNSIGNED AUTO_INCREMENT NOT NULL,
-    `uuid` VARCHAR(64) NOT NULL,
+    `uuid` BINARY(16) NOT NULL,
     `name` VARCHAR(255) NOT NULL,
     `account_type_id` INT UNSIGNED NOT NULL,
     `currency_id` INT UNSIGNED NOT NULL,
