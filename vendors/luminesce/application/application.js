@@ -6,7 +6,6 @@ import Console from '../console/console.js';
 import Connection from '../database/connection.js';
 import Router from '../http/routing/router.js';
 import Configuration from '../configuration/configuration.js';
-import Hasher from '../hashing/hasher.js';
 
 export default class Application {
   /** @type {bool} */
@@ -33,10 +32,6 @@ export default class Application {
   get db() {
     return this.#db;
   }
-  /** @type {Hasher} */
-  get hasher() {
-    return this.#hasher;
-  }
   /** @type {bool} */
   get initialized() {
     return Application.initialized;
@@ -53,8 +48,6 @@ export default class Application {
   #console;
   /** @type {Connection} */
   #db;
-  /** @type {Hasher} */
-  #hasher;
   /** @type {Router} */
   #router;
 
@@ -113,8 +106,6 @@ export default class Application {
     );
 
     await this.#db.connect();
-
-    this.#hasher = new Hasher(this);
     
     this.#router = new Router();
   }

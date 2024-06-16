@@ -1,3 +1,5 @@
+import bcryptjs from 'bcryptjs';
+
 import Facade from './facade.js';
 
 export default class Hash extends Facade {
@@ -7,7 +9,7 @@ export default class Hash extends Facade {
    * @returns {Promise<bool>}
    */
   static async check(value, hashed) {
-    return await this._app.hasher.check(value, hashed);
+    return await bcryptjs.compare(value, hashed);
   }
 
   /**
@@ -15,6 +17,6 @@ export default class Hash extends Facade {
    * @returns {Promise<string>}
    */
   static async make(value) {
-    return await this._app.hasher.make(value);
+    return await bcryptjs.hash(value, this._app.config.get('hashing.rounds'));
   }
 }
