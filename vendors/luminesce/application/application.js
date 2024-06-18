@@ -2,6 +2,7 @@ import { join } from 'node:path';
 
 import { GetSecretValueCommand, SecretsManagerClient } from '@aws-sdk/client-secrets-manager';
 
+import SecretsManager from '../../wonder/secrets-manager.js';
 import Console from '../console/console.js';
 import Connection from '../database/connection.js';
 import Router from '../http/routing/router.js';
@@ -30,7 +31,7 @@ export default class Application {
   }
   /** @type {Connection} */
   get db() {
-    return this.#db;
+    return this.db;
   }
   /** @type {bool} */
   get initialized() {
@@ -40,6 +41,10 @@ export default class Application {
   get router() {
     return this.#router;
   }
+  /** @type {SecretsManager} */
+  get secrets() {
+    return this.#secrets;
+  }
   /** @type {string} */
   #basePath;
   /** @type {Configuration} */
@@ -47,9 +52,11 @@ export default class Application {
   /** @type {Console} */
   #console;
   /** @type {Connection} */
-  #db;
+  db;
   /** @type {Router} */
   #router;
+  /** @type {SecretsManager} */
+  #secrets;
 
   /**
    * @param {string} basePath
@@ -83,29 +90,13 @@ export default class Application {
 
     await this.#config.load(join(this.#basePath, './config'));
 
+    this.#secrets = new SecretsManager(this.#config.get('db.secret'));
+
     this.#console = new Console(this);
-
-    const database = this.#config.get('db.database');
-    const host = this.#config.get('db.host');
-    const port = this.#config.get('db.port');
     
-    const secretsManager = new SecretsManagerClient();
-    const secretResponse = await secretsManager.send(
-      new GetSecretValueCommand({
-        SecretId: this.#config.get('db.secret'),
-      })
-    );
-    const secrets = JSON.parse(secretResponse.SecretString);
+    this.db = new Connection(this);
 
-    this.#db = new Connection(
-      database,
-      host,
-      port,
-      secrets.username,
-      secrets.password
-    );
-
-    await this.#db.connect();
+    await this.db.connect();
     
     this.#router = new Router();
   }
