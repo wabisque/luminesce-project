@@ -1,14 +1,11 @@
 import { join } from 'node:path';
 
-import { GetSecretValueCommand, SecretsManagerClient } from '@aws-sdk/client-secrets-manager';
-
 import SecretsManager from '../../wonder/secrets-manager.js';
 import Console from '../console/console.js';
 import Connection from '../database/connection.js';
 import Router from '../http/routing/router.js';
 import Configuration from '../configuration/configuration.js';
 import Hasher from '../hashing/hasher.js';
-import Uuid from '../uuid/uuid.js';
 
 export default class Application {
   /** @type {bool} */
@@ -51,10 +48,6 @@ export default class Application {
   get secrets() {
     return this.#secrets;
   }
-  /** @type {Uuid} */
-  get uuid() {
-    return this.#uuid;
-  }
   /** @type {string} */
   #basePath;
   /** @type {Configuration} */
@@ -69,8 +62,6 @@ export default class Application {
   #router;
   /** @type {SecretsManager} */
   #secrets;
-  /** @type {Uuid} */
-  #uuid;
 
   /**
    * @param {string} basePath
@@ -115,7 +106,5 @@ export default class Application {
     this.#hasher = new Hasher(this);
     
     this.#router = new Router();
-
-    this.#uuid = new Uuid();
   }
 }

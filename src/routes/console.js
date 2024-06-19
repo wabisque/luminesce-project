@@ -1,4 +1,4 @@
-import Router from '../../vendors/luminesce/support/facade/router.js';
+import Router from '../../vendors/luminesce/facades/router.js';
 import MakeCommandCommand from '../app/console/commands/make-command-command.js';
 import MakeMigrationCommand from '../app/console/commands/make-migration-command.js';
 import MigrateCommand from '../app/console/commands/migrate-command.js';

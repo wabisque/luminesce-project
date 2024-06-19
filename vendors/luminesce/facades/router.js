@@ -1,5 +1,5 @@
-import RouteBuilder from '../../http/routing/route-builder.js';
-import RouteGroupBuilder from '../../http/routing/route-group-builder.js';
+import RouteBuilder from '../http/routing/route-builder.js';
+import RouteGroupBuilder from '../http/routing/route-group-builder.js';
 import Facade from './facade.js';
 
 export default class Router extends Facade {

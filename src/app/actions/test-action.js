@@ -1,7 +1,8 @@
+import Str from '../../../vendors/luminesce/facades/str.js';
 import Action from '../../../vendors/luminesce/http/action/action.js';
 import Response from '../../../vendors/luminesce/http/response/response.js';
-import Hash from '../../../vendors/luminesce/support/facade/hash.js';
-import Uuid from '../../../vendors/luminesce/support/facade/uuid.js';
+import Hash from '../../../vendors/luminesce/facades/hash.js';
+import Uuid from '../../../vendors/luminesce/facades/uuid.js';
 
 export default class TestAction extends Action {
   /**
@@ -11,6 +12,7 @@ export default class TestAction extends Action {
     const hash = await Hash.make('password');
     const uuid = Uuid.make();
     const uuidString = Uuid.stringify(uuid);
+    const randomString = Str.random();
     
     return new Response(
       JSON.stringify({
@@ -21,6 +23,7 @@ export default class TestAction extends Action {
           hash,
           uuid,
           uuidString,
+          randomString,
         },
       }),
       {
