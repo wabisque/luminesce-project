@@ -1,5 +1,3 @@
-import { v4, parse, stringify } from 'uuid';
-
 import Facade from './facade.js';
 
 export default class Uuid extends Facade {
@@ -7,7 +5,7 @@ export default class Uuid extends Facade {
    * @returns {Uint8Array}
    */
   static make() {
-    return parse(v4());
+    return this._app.uuid.make();
   }
 
   /**
@@ -15,7 +13,7 @@ export default class Uuid extends Facade {
    * @returns {Uint8Array}
    */
   static parse(string) {
-    return parse(string);
+    return this._app.uuid.parse(string);
   }
 
   /**
@@ -24,6 +22,6 @@ export default class Uuid extends Facade {
    * @returns {string}
    */
   static stringify(buffer) {
-    return stringify(buffer);
+    return this._app.uuid.stringify(buffer);
   }
 }
