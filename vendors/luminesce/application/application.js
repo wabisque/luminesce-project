@@ -7,6 +7,7 @@ import Console from '../console/console.js';
 import Connection from '../database/connection.js';
 import Router from '../http/routing/router.js';
 import Configuration from '../configuration/configuration.js';
+import Hasher from '../hashing/hasher.js';
 
 export default class Application {
   /** @type {bool} */
@@ -31,7 +32,11 @@ export default class Application {
   }
   /** @type {Connection} */
   get db() {
-    return this.db;
+    return this.#db;
+  }
+  /** @type {Hasher} */
+  get hasher() {
+    return this.#hasher;
   }
   /** @type {bool} */
   get initialized() {
@@ -52,7 +57,9 @@ export default class Application {
   /** @type {Console} */
   #console;
   /** @type {Connection} */
-  db;
+  #db;
+  /** @type {Hasher} */
+  #hasher;
   /** @type {Router} */
   #router;
   /** @type {SecretsManager} */
@@ -94,9 +101,11 @@ export default class Application {
 
     this.#console = new Console(this);
     
-    this.db = new Connection(this);
+    this.#db = new Connection(this);
 
-    await this.db.connect();
+    await this.#db.connect();
+
+    this.#hasher = new Hasher(this);
     
     this.#router = new Router();
   }
