@@ -34,3 +34,9 @@ export async function app(event) {
     };
   }
 }
+
+export async function console(event) {
+  const { default: app } = await import('./src/bootstrap/app.js');
+
+  await app.console.execute(event.command, event.args);
+}
