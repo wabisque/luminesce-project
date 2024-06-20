@@ -1,18 +1,6 @@
-import Request from './vendors/luminesce/http/request/request.js';
+import { Request } from '@dreamitdev/luminesce/http/request';
 
 export async function app(event) {
-  // return {
-  //   statusCode: 200,
-  //   headers: {
-  //     'Content-Type': 'application/json',
-  //   },
-  //   body: JSON.stringify({
-  //     env: process.env,
-  //     event,
-  //     context,
-  //   }),
-  // };
-
   const request = new Request(event.httpMethod.toLocaleLowerCase(), event.path);
   const { default: app } = await import('./src/bootstrap/app.js');
 

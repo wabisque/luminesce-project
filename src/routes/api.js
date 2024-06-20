@@ -1,4 +1,5 @@
-import Router from '../../vendors/luminesce/facades/router.js';
-import TestAction from '../app/actions/test-action.js';
+import { Router } from '@dreamitdev/luminesce/facades';
+
+import TestAction from '../app/http/actions/test-action.js';
 
 Router.get('/', TestAction);

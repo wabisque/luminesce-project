@@ -1,7 +1,7 @@
 import { readFile } from 'node:fs/promises';
 import { join } from 'node:path';
 
-import Command from '../../../../vendors/luminesce/console/command.js';
+import { Command } from '@dreamitdev/luminesce/console';
 
 export default class MigrateRollbackCommand extends Command {
   /** @type {string} */

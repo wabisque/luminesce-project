@@ -1,6 +1,6 @@
 import { join } from 'node:path';
 
-import Application from '../../vendors/luminesce/application/application.js';
+import { Application } from '@dreamitdev/luminesce/application';
 
 const app = new Application(join(import.meta.dirname, '..'));
 

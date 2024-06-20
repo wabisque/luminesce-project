@@ -1,12 +1,10 @@
-import Str from '../../../vendors/luminesce/facades/str.js';
-import Action from '../../../vendors/luminesce/http/action/action.js';
-import Response from '../../../vendors/luminesce/http/response/response.js';
-import Hash from '../../../vendors/luminesce/facades/hash.js';
-import Uuid from '../../../vendors/luminesce/facades/uuid.js';
+import { Hash, Str, Uuid } from '@dreamitdev/luminesce/facades';
+import { Action } from '@dreamitdev/luminesce/http/action';
+import { Response } from '@dreamitdev/luminesce/http/response';
 
 export default class TestAction extends Action {
   /**
-   * @returns {Response}
+ * @returns {Promise<Response>}
    */
   async execute() {
     const hash = await Hash.make('password');
