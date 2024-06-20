@@ -12,7 +12,7 @@ export default class TestAction extends Action {
     const hash = await Hash.make('password');
     const uuid = Uuid.make();
     const uuidString = Uuid.stringify(uuid);
-    const randomString = Str.random();
+    const randomString = Str.random(1000);
     
     return new Response(
       JSON.stringify({
@@ -24,6 +24,7 @@ export default class TestAction extends Action {
           uuid,
           uuidString,
           randomString,
+          randomStringLength: randomString.length,
         },
       }),
       {

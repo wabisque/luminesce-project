@@ -1,7 +1,7 @@
 export default class Command {
   /** @type {string} */
   static get tag() {
-    return '';
+    throw new Error('Not implemented');
   }
 
   /** @type {import('../application/application.js').default} */

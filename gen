@@ -30,7 +30,7 @@ function parse(args, scope = {}) {
 }
 
 const { default: app } = await import('./src/bootstrap/app.js');
-
+  
 const [ command, ...args ] = process.argv.slice(2);
 
 try {

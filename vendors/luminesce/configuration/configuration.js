@@ -1,9 +1,19 @@
 import { readdir } from 'node:fs/promises';
 import { join } from 'node:path';
+import { pathToFileURL } from 'node:url';
 
 export default class Configuration {
+  /** @type {import('../application/application.js').default} */
+  #app;
   /** @type {Record<string, *>} */
   #map = {};
+
+  /**
+   * @param {import('../application/application.js').default} app
+   */
+  constructor(app) {
+    this.#app = app;
+  }
 
   /**
    * @param {string} key
@@ -21,16 +31,18 @@ export default class Configuration {
   }
 
   /**
-   * @param {string} path
    * @returns {Promise<void>}
    */
-  async load(path) {
-    const files = await readdir(path);
+  async setup() {
+    const configPath = join(this.#app.basePath, 'config');
+    const files = await readdir(configPath);
 
     for(const file of files) {
       if(file.endsWith('.js')) {
         const name = file.slice(0, -3);
-        const { default: config } = await import(join(path, file));
+        const path = join(configPath, file);
+
+        const { default: config } = await import(pathToFileURL(path));
 
         this.#map[name] = config;
       }

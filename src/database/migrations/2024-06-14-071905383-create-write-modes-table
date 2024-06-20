@@ -1,19 +1,19 @@
 -- Up
 
-CREATE TABLE IF NOT EXISTS `write_directions`
+CREATE TABLE IF NOT EXISTS `write_modes`
   (
     `id` INT UNSIGNED AUTO_INCREMENT NOT NULL,
     `uuid` BINARY(16) NOT NULL,
     `name` VARCHAR(255) NOT NULL,
     `created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     `updated_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    CONSTRAINT `write_directions_id_primary_key` PRIMARY KEY (`id`),
-    CONSTRAINT `write_directions_uuid_unique_key` UNIQUE (`uuid`),
-    CONSTRAINT `write_directions_name_unique_key` UNIQUE (`name`)
+    CONSTRAINT `write_modes_id_primary_key` PRIMARY KEY (`id`),
+    CONSTRAINT `write_modes_uuid_unique_key` UNIQUE (`uuid`),
+    CONSTRAINT `write_modes_name_unique_key` UNIQUE (`name`)
   ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
 --- // ---
 
 -- Down
 
-DROP TABLE IF EXISTS `write_directions`;
+DROP TABLE IF EXISTS `write_modes`;

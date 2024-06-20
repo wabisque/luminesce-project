@@ -1,4 +1,4 @@
-import { randomBytes } from 'node:crypto';
+import { pbkdf2Sync, randomBytes } from 'node:crypto';
 
 export default class Str {
   /** @type {Str?} */
@@ -17,8 +17,16 @@ export default class Str {
    * @returns {string}
    */
   random(length = 16) {
-    return randomBytes(length)
+    const salt = randomBytes(length).toString('base64');
+
+    return pbkdf2Sync(
+      Date.now().toString(),
+      salt,
+      1000,
+      length,
+      'sha512'
+    )
       .toString('base64')
-      .slice(0, 16);
+      .slice(0, length);
   }
 }

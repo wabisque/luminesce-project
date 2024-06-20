@@ -91,9 +91,9 @@ export default class Application {
    * @returns {Promise<void>}
    */
   async setup() {
-    this.#config = new Configuration();
+    this.#config = new Configuration(this);
 
-    await this.#config.load(join(this.#basePath, './config'));
+    await this.#config.setup();
 
     this.#secrets = new SecretsManager(this.#config.get('db.secret'));
 

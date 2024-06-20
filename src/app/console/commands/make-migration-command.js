@@ -26,7 +26,7 @@ export default class MakeMigrationCommand extends Command {
     }
 
     // fetch the migrations directory path
-    const targetPath = join(this._app.basePath, './database/migrations');
+    const targetPath = join(this._app.basePath, 'database/migrations');
 
     // ensure that the migrations directory exists
     if(!existsSync(targetPath)) {
@@ -42,7 +42,7 @@ export default class MakeMigrationCommand extends Command {
 
     // fetch migration stub
     const stub = await readFile(
-      join(this._app.basePath, `./resources/stubs/migration${type}`),
+      join(this._app.basePath, `resources/stubs/migration${type}`),
       {
         encoding: 'utf8',
       }
@@ -50,7 +50,7 @@ export default class MakeMigrationCommand extends Command {
 
     const filePath = join(
       targetPath,
-      `./${moment().format('YYYY-MM-DD-HHmmssSSS')}-${view || !raw ? 'create-' : ''}${table.replaceAll('_', '-')}${type}`
+      `${moment().format('YYYY-MM-DD-HHmmssSSS')}-${view || !raw ? 'create-' : ''}${table.replaceAll('_', '-')}${type}`
     );
 
     // create migration file
