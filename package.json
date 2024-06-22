@@ -9,7 +9,9 @@
   },
   "dependencies": {
     "@aws-sdk/client-secrets-manager": "^3.596.0",
-    "@dreamitdev/luminesce": "^0.0.1",
+    "@dreamitdev/luminesce": "^0.0.8",
+    "@dreamitdev/morph": "^0.0.0",
+    "joi": "^17.13.3",
     "moment": "^2.30.1"
   },
   "repository": {
@@ -26,6 +28,6 @@
   },
   "homepage": "https://github.com/dreamitdev-appkeep/api-v1#readme",
   "devDependencies": {
-    "@dreamitdev/gen": "^0.0.0"
+    "@dreamitdev/gen": "^0.0.1"
   }
 }

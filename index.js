@@ -1,8 +1,18 @@
+import { stringify } from 'node:querystring';
+
 import { Request } from '@dreamitdev/luminesce/http/request';
 
 export async function app(event) {
-  const request = new Request(event.httpMethod.toLocaleLowerCase(), event.path);
   const { default: app } = await import('./src/bootstrap/app.js');
+
+  const request = new Request(
+    app,
+    event.httpMethod.toLocaleLowerCase(),
+    event.path,
+    event.headers,
+    event.isBase64Encoded ? Buffer.from(event.body ?? '', 'base64').toString() : (event.body ?? ''),
+    stringify(event.multiValueQueryStringParameters)
+  );
 
   try {
     const response = await app.execute(request);
