@@ -9,7 +9,7 @@
   },
   "dependencies": {
     "@aws-sdk/client-secrets-manager": "^3.596.0",
-    "@dreamitdev/luminesce": "^0.0.8",
+    "@dreamitdev/luminesce": "^0.0.24",
     "@dreamitdev/morph": "^0.0.0",
     "joi": "^17.13.3",
     "moment": "^2.30.1"

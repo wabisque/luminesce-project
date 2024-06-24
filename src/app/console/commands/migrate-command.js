@@ -14,29 +14,22 @@ export default class MigrateCommand extends Command {
    */
   async execute() {
     const fresh = Boolean(this._args.fresh);
+    const refresh = Boolean(this._args.refresh);
 
     const migrationsPath = join(this._app.basePath, './database/migrations');
     const migrations = await readdir(migrationsPath);
 
-    // ensure that the migrations table is created.
-    await this._app.db.execute(`
-      CREATE TABLE IF NOT EXISTS \`migrations\`
-        (
-          \`id\` INT UNSIGNED AUTO_INCREMENT NOT NULL,
-          \`migration\` VARCHAR(512) NOT NULL,
-          \`batch\` INT UNSIGNED NOT NULL,
-          CONSTRAINT \`migrations_id_primary_key\` PRIMARY KEY (\`id\`),
-          CONSTRAINT \`migrations_migration_unique_key\` UNIQUE (\`migration\`)
-        ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
-    `);
+    if(fresh) {
+      await this._app.db.reset();
+    }
 
     const records = await this._app.db.execute(`
-      SELECT * 
+      SELECT *
       FROM \`migrations\`
       ORDER BY \`id\` DESC;
     `);
 
-    if(fresh) {
+    if(refresh) {
       for(const record of records) {
         const content = await readFile(
           join(migrationsPath, record.migration),
@@ -61,8 +54,6 @@ export default class MigrateCommand extends Command {
       }
 
       records.splice(0, records.length);
-      
-      console.log();
     }
 
     const batch = Math.max(0, ...records.map(record => record.batch)) + 1;

@@ -7,7 +7,7 @@ const app = new Application(join(import.meta.dirname, '..'));
 
 await app.setup();
 
-await import('../helpers/functions.js');
+await import('../setup/functions.js');
 
 await Router.prefix('api').group(() => import('../routes/api.js'));
 

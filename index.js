@@ -2,19 +2,22 @@ import { stringify } from 'node:querystring';
 
 import { Request } from '@dreamitdev/luminesce/http/request';
 
-export async function app(event) {
-  const { default: app } = await import('./src/bootstrap/app.js');
+if(process.env.AWS_SAM_LOCAL == 'true') {
+  process.env.DB_DATABASE = 'appkeep-api-local';
+}
 
-  const request = new Request(
-    app,
-    event.httpMethod.toLocaleLowerCase(),
-    event.path,
-    event.headers,
-    event.isBase64Encoded ? Buffer.from(event.body ?? '', 'base64').toString() : (event.body ?? ''),
-    stringify(event.multiValueQueryStringParameters)
-  );
-
+export async function executeApp(event) {
   try {
+    const { default: app } = await import('./src/bootstrap/app.js');
+
+    const request = new Request(
+      event.httpMethod.toLocaleLowerCase(),
+      event.path,
+      event.headers,
+      event.isBase64Encoded ? Buffer.from(event.body ?? '', 'base64').toString() : (event.body ?? ''),
+      stringify(event.multiValueQueryStringParameters)
+    );
+
     const response = await app.execute(request);
 
     return {
@@ -33,7 +36,7 @@ export async function app(event) {
   }
 }
 
-export async function console(event) {
+export async function executeConsole(event) {
   const { default: app } = await import('./src/bootstrap/app.js');
 
   await app.console.execute(event.command, event.args);

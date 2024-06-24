@@ -18,7 +18,8 @@ CREATE TABLE IF NOT EXISTS `users`
     CONSTRAINT `users_email_unique_key` UNIQUE (`email`),
     CONSTRAINT `users_phone_phone_code_id_unique_key` UNIQUE (`phone`, `phone_code_id`),
     CONSTRAINT `users_country_id_foreign_key` FOREIGN KEY (`country_id`) REFERENCES `countries` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-    CONSTRAINT `users_phone_code_id_foreign_key` FOREIGN KEY (`phone_code_id`) REFERENCES `phone_codes` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+    CONSTRAINT `users_phone_code_id_foreign_key` FOREIGN KEY (`phone_code_id`) REFERENCES `phone_codes` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+    INDEX `users_first_name_last_name_index` (`last_name`, `first_name`)
   ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
 --- // ---
